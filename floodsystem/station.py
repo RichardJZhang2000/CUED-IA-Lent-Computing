@@ -58,3 +58,12 @@ class MonitoringStation:
         #if neither of the above are True, then the data is consistent
         #so return True
         return True
+
+def inconsistent_typical_range_stations(stations):
+    """This function takes stations, a list of MonitoringStation
+    objects, and outputs a list of MonitoringStation objects which
+    are in stations but have an inconsistent typical range
+    """
+
+    incon_stations = [station for station in stations if not station.typical_range_consistent()]
+    return incon_stations
