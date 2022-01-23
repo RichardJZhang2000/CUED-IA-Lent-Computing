@@ -24,5 +24,21 @@ def test_stations_by_distance():
         #make sure the distances are calculated correctly
         assert haversine(station.coord, p)==distances[i][1]
 
+def test_stations_within_radius():
+    #get the list of stations and define a centre
+    station_list = build_station_list()
+    p = (53, -1)
+
+    #get the list of stations within 10km
+    stations = stations_within_radius(station_list, p, 10)
+
+    for station in station_list:
+        if haversine(station.coord, p)<=10:
+            #for each station in the entire list, if it lies within 10km of the centre,
+            #then it should appear once in the stations list; else, it should not appear
+            assert stations.count(station)==1
+        else:
+            assert stations.count(station)==0
+
     
     
