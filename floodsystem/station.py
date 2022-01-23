@@ -38,3 +38,23 @@ class MonitoringStation:
         d += "   river:         {}\n".format(self.river)
         d += "   typical range: {}".format(self.typical_range)
         return d
+
+    def typical_range_consistent(self):
+        """This method checks that the data for the typical
+        high/low ranges for the station is available and 
+        consistent (i.e. high>low).
+        Return is True if the data is BOTH available AND 
+        consistent, and False is either criterion is not met.
+        """
+        #if the typical range is unavailable, return False
+        if self.typical_range==None:
+            return False
+        
+        #if the first item in typical range (the low) is higher
+        #than the second (the high), return False
+        if self.typical_range(0) > self.typical_range(1):
+            return False
+        
+        #if neither of the above are True, then the data is consistent
+        #so return True
+        return True
