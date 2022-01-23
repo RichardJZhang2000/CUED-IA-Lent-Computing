@@ -52,7 +52,7 @@ class MonitoringStation:
         
         #if the first item in typical range (the low) is higher
         #than the second (the high), return False
-        if self.typical_range(0) > self.typical_range(1):
+        if self.typical_range[0] > self.typical_range[1]:
             return False
         
         #if neither of the above are True, then the data is consistent
