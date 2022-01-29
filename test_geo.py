@@ -1,5 +1,6 @@
 """Unit test for geo module"""
 
+from sympy import Dict
 from floodsystem.geo import *
 from floodsystem.stationdata import build_station_list
 
@@ -40,5 +41,21 @@ def test_stations_within_radius():
         else:
             assert stations.count(station)==0
 
-    
-    
+def test_rivers_with_station():
+    #get the list of stations and create the set of rivers
+    station_list = build_station_list()
+    rivers = rivers_with_station(station_list)
+
+    #test if rivers is a set object
+    assert type(rivers) is set
+
+def test_stations_by_river():
+    #get the list of stations and create the river-station dictionary
+    stations_list = build_station_list()
+    river_station_dict = stations_by_river(stations_list)
+
+    #test if river_station_dict is a dictionary object
+    assert type(river_station_dict) is dict
+
+    #test if an value in river_station_dict is a list
+    assert type(river_station_dict["River Cam"]) is list
