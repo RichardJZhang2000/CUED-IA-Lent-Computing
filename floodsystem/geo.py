@@ -75,6 +75,28 @@ def stations_by_river(stations):
         #If the river is not a key, create a new entry with the river as key and station as value
         else:
             river_station_dict[station.river] = [station]
-            
+
     return river_station_dict
 
+def rivers_by_station_number(stations, N):
+    """This function takes in a list of stations (MonitoringStation type),
+    and a number (int type), and returns a list of (river name, number of stations)
+    tuples, sorted by the number of stations. In the case that there are more rivers 
+    with the same number of stations as the N th entry, these rivers are included in the list."""
+
+    #create empty list to hold the tuples and get stations list
+    river_station_number = []
+    stations_on_river = stations_by_river(stations)
+
+    #convert the river-station string-object pair into list of tuples of river name and number of stations
+    for pair in stations_on_river.items():
+        river_station_number.append((pair[0], len(pair[1])))
+
+    #sort the list of tuples by the number of stations
+    river_station_number_sorted = sorted_by_key(river_station_number, 1, reverse=True)
+
+    #cut the list of tuples according to N and return it
+    counter = N
+    while river_station_number_sorted[counter-1][1] == river_station_number_sorted[counter][1]:
+        counter += 1
+    return river_station_number_sorted[:counter]
