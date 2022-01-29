@@ -1,6 +1,5 @@
 """Unit test for geo module"""
 
-from sympy import Dict
 from floodsystem.geo import *
 from floodsystem.stationdata import build_station_list
 
