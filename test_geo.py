@@ -59,3 +59,14 @@ def test_stations_by_river():
 
     #test if an value in river_station_dict is a list
     assert type(river_station_dict["River Cam"]) is list
+
+def test_rivers_by_station_number():
+    #get the list of stations and create the rivers_ranking list
+    stations_list = build_station_list()
+    rivers_ranking = rivers_by_station_number(stations_list, 9)
+
+    #check if rivers_ranking is a list
+    assert type(rivers_ranking) is list
+
+    #check if the elements in rivers_ranking are tuples
+    assert type(rivers_ranking[0]) is tuple
