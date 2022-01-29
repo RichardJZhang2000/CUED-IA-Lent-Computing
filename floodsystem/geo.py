@@ -47,3 +47,9 @@ def stations_within_radius(stations, centre, r):
     #select all stations before the index i
     stations = [distances[j][0] for j in range(i)]
     return stations
+
+def rivers_with_station(stations):
+    """This function takes in a list of stations (MonitoringStation type),
+    and returns a set of strings, containing the names of rivers that have a station."""
+    rivers = {station.river for station in stations}
+    return rivers
