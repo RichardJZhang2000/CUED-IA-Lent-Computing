@@ -66,8 +66,8 @@ class MonitoringStation:
         would correspond to a value of 0.0 and a typical high would 
         correspond to a value of 1.0.
         """
-        #If the typical range is inconsistent or unavailable, return None
-        if not self.typical_range_consistent():
+        #If the typical range is inconsistent or unavailable or the latest level is not available, return None
+        if not self.typical_range_consistent() or self.latest_level==None:
             return None
 
         #Calculate relative water level
