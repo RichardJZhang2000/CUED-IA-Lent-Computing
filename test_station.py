@@ -82,9 +82,8 @@ def test_inconsistent_typical_range_stations():
     assert inconsistent_typical_range_stations(s)==[s2, s3]
 
 def test_relative_water_level():
-    #Build station list and take the first 5 stations
+    #Build station list
     stations = build_station_list()
-    stations = stations[:5]
 
     #add the water levels into the 5 stations
     update_water_levels(stations)
