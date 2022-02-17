@@ -95,7 +95,5 @@ def test_relative_water_level():
     assert len(rel)==len(stations)
 
     for i in range(len(rel)):
-        #for each relative water level, make sure it is within the range [0,1] if it is not None
-        assert (rel[i]>=0.0 and rel[i]<=1.0) or rel[i]==None
         #check relative water levels against manual calculations
         assert rel[i] == None or rel[i]==(stations[i].latest_level-stations[i].typical_range[0])/(stations[i].typical_range[1]-stations[i].typical_range[0])
