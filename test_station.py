@@ -3,7 +3,9 @@
 # SPDX-License-Identifier: MIT
 """Unit test for the station module"""
 
+from distutils.command.build import build
 from floodsystem.station import *
+from floodsystem.stationdata import build_station_list, update_water_levels
 
 
 def test_create_monitoring_station():
@@ -78,3 +80,13 @@ def test_inconsistent_typical_range_stations():
     s = [s1, s2, s3]
 
     assert inconsistent_typical_range_stations(s)==[s2, s3]
+
+def test_relative_water_level():
+    #Create three stations as before and compile them into a list
+    stations = build_station_list()
+    stations = stations[:5]
+    update_water_levels(stations)
+    rel = [station.relative_water_level() for station in stations]
+    assert len(rel)==len(stations)
+    for i in range(len(rel)):
+        assert rel[i] == None or rel[i]==(stations[i].latest_level-stations[i].typical_range[0])/(stations[i].typical_range[1]-stations[i].typical_range[0])
