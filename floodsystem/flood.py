@@ -27,7 +27,8 @@ def stations_highest_rel_level(stations, N):
 
     #create a list of tuples where the relative water level is displayed after
     #the station, which allows usage of the sorted_by_key method
-    levels = [(station, station.relative_water_level()) for station in stations]
+    #stations without a valid relative water level are excluded
+    levels = [(station, station.relative_water_level()) for station in stations if station.relative_water_level()!=None]
     levels = sorted_by_key(levels, 1, reverse=True)
     stations_N = [levels[i][0] for i in range(N)]
     return stations_N
