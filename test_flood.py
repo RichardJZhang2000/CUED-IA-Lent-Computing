@@ -29,3 +29,22 @@ def test_stations_level_over_threshold():
             assert stations_over[i][1]>=stations_over[i+1][1]
             #make sure the list only contains items with relative water level larger than the threshold
             assert stations_over[i][1]>0.5
+
+def test_stations_highest_rel_level():
+    #build the list of stations and update water levels into them
+    stations = build_station_list()
+    update_water_levels(stations)
+
+    #create the list of N stations
+    stations_N = stations_highest_rel_level(stations, 20)
+
+    #make sure it is exactly N stations
+    assert len(stations_N)==20
+
+    for i in range(20):
+        #make sure each element is a MonitoringStation object
+        assert isinstance(stations_N[i], MonitoringStation)
+
+        if i<19:
+            #make sure it is sorted by descending order of relative water level
+            assert stations_N[i].relative_water_level()>stations_N[i+1].relative_water_level()
