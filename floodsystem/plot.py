@@ -8,11 +8,13 @@ def plot_water_levels(station, dates, levels):
 
     # Plot
     plt.plot(dates, levels)
+    plt.axhline(y=station.typical_range[0], color='b', linestyle='-')
+    plt.axhline(y=station.typical_range[1], color='r', linestyle='-')
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('date')
     plt.ylabel('water level (m)')
-    plt.xticks(rotation=45);
+    plt.xticks(rotation=45)
     plt.title(station.name)
 
     # Display plot
