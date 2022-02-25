@@ -84,6 +84,8 @@ def rate(stations):
         else:
             risk[station] = 'low'
 
+    return risk
+
 def normalize(num, station):
     #Just an internal helper method, should not be used externally
     return (num-station.typical_range[0])/(station.typical_range[1]-station.typical_range[0])
