@@ -1,5 +1,8 @@
+from datetime import datetime
 import numpy as np
 import matplotlib as plt
+
+from floodsystem.datafetcher import fetch_measure_levels
 
 def polyfit(dates, levels, p):
     '''A function that takes in a dates list, a level list, an int p, and returns the polynomial object that
@@ -53,3 +56,34 @@ def rate(stations):
 
     Where C is current, P is predicted, V is discrete velocity, and A is acceleration
     """
+    risk = {}
+    for station in stations:
+        #find the predicted level and convert to relative level
+        dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
+        poly, _ = polyfit(dates, levels, 4)
+        pred = poly(1) #predicted water level the next day
+        pred_rel = normalize(pred, station)
+
+        #extract other information necessary
+        current = station.relative_water_level()
+        velocity = normalize(levels[0]) - normalize(levels[len(levels)/2]) #velocity over the last day
+        acc = (normalize(levels[0]) - normalize(levels[len(levels)/2])) - (normalize(levels[len(levels)/2]) - normalize(levels[-1]))
+        #acceleration given by change in velocity over the last two days
+        #velocity and acceleration are taken over the range of one day so noises are negligible
+        
+        #calculate the metric
+        metric = 0.5*current + 0.3*pred_rel + 0.5*(velocity+acc)
+
+        #determine the risk and add to the dict
+        if metric >1:
+            risk[station] = 'severe'
+        elif metric>0.8:
+            risk[station] = 'high'
+        elif metric>0.5:
+            risk[station] = 'moderate'
+        else:
+            risk[station] = 'low'
+
+def normalize(num, station):
+    #Just an internal helper method, should not be used externally
+    return (num-station.typical_range[0])/(station.typical_range[1]-station.typical_range[0])
