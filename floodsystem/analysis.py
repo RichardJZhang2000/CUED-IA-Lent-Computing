@@ -59,10 +59,15 @@ def rate(stations):
     """
     risk = {}
     for station in stations:
+        #skip the stations with no latest level or with an inconsistent typical range
         if station.latest_level==None or not station.typical_range_consistent():
             continue
+
         #find the predicted level and convert to relative level
         dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
+        if len(dates)==0: #for some reason this is a bug which sometimes appears; my instinct is that it has to do
+            #with previous times with no data
+            continue
         poly, _ = polyfit(dates, levels, 4)
         pred = poly(1) #predicted water level the next day
         pred_rel = normalize(pred, station)
