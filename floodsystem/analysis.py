@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import numpy as np
 import matplotlib as plt
 
@@ -25,7 +25,8 @@ def polyfit(dates, levels, p):
 def rate(stations):
     """This function takes stations, a list of MonitoringStation objects,
     and outputs a dict, where the key is the station and the value is the
-    flood risk assessment (severe, high, moderate, or low).
+    flood risk assessment (severe, high, moderate, or low). this method 
+    assumes the water levels have already been updated.
 
     The judging criteria used is a mixed weight of current relative water
     level, current rate of change of water level, current "acceleration" of water level,
@@ -58,6 +59,8 @@ def rate(stations):
     """
     risk = {}
     for station in stations:
+        if station.latest_level==None or not station.typical_range_consistent():
+            continue
         #find the predicted level and convert to relative level
         dates, levels = fetch_measure_levels(station.measure_id, dt=datetime.timedelta(days=2))
         poly, _ = polyfit(dates, levels, 4)
@@ -66,8 +69,9 @@ def rate(stations):
 
         #extract other information necessary
         current = station.relative_water_level()
-        velocity = normalize(levels[0]) - normalize(levels[len(levels)/2]) #velocity over the last day
-        acc = (normalize(levels[0]) - normalize(levels[len(levels)/2])) - (normalize(levels[len(levels)/2]) - normalize(levels[-1]))
+        velocity = normalize(levels[0], station) - normalize(levels[int(len(levels)/2)], station) #velocity over the last day
+        acc = (normalize(levels[0], station) - normalize(levels[int(len(levels)/2)], station)
+            ) - (normalize(levels[int(len(levels)/2)], station) - normalize(levels[-1], station))
         #acceleration given by change in velocity over the last two days
         #velocity and acceleration are taken over the range of one day so noises are negligible
         
