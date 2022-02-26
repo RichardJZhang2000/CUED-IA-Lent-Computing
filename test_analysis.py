@@ -27,6 +27,6 @@ def test_rate():
     #get the ratings
     risks = rate(stations)
 
-    for station in stations:
-        assert station in risks.keys
+    for station in risks.keys():
+        assert station in stations
         assert risks[station]=='severe' or risks[station]=='high' or risks[station]=='moderate' or risks[station]=='low'
