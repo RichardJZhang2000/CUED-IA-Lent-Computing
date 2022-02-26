@@ -134,7 +134,11 @@ def fetch_measure_levels(measure_id, dt):
         d = dateutil.parser.parse(measure['dateTime'])
 
         # Append data
-        dates.append(d)
-        levels.append(measure['value'])
+        try:
+            levels.append(measure['value'])
+            dates.append(d)
+        except KeyError as e: #if there is no measure['value'], an error which can appear in the data from the website
+            #the appending of levels before dates also ensures that the two lists always have the same length
+            continue
 
     return dates, levels
