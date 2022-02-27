@@ -1,8 +1,8 @@
 import datetime
 import numpy as np
-import matplotlib as plt
+from matplotlib.dates import date2num
 
-from floodsystem.datafetcher import fetch_measure_levels
+from .datafetcher import fetch_measure_levels
 
 def polyfit(dates, levels, p):
     '''A function that takes in a dates list, a level list, an int p, and returns the polynomial object that
@@ -10,7 +10,7 @@ def polyfit(dates, levels, p):
 
 
     #Convert dates into float
-    dates_float = plt.dates.date2num(dates)
+    dates_float = date2num(dates)
 
     # Using shifted dates_float values, find coefficient of best-fit
     # polynomial f(x) of degree p

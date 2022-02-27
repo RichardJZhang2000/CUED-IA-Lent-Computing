@@ -9,12 +9,11 @@ def run():
 
     #rate the risks of the stations
     risk = rate(stations)
-    
     #convert them to lists based on the level of risk and print those lists
-    severe = [station.name for station in stations if risk[station]=='severe']
-    high = [station.name for station in stations if risk[station]=='high']
-    mod = [station.name for station in stations if risk[station]=='moderate']
-    low = [station.name for station in stations if risk[station]=='low']
+    severe = [station.name for station in risk.keys() if risk[station]=='severe']
+    high = [station.name for station in risk.keys() if risk[station]=='high']
+    mod = [station.name for station in risk.keys() if risk[station]=='moderate']
+    low = [station.name for station in risk.keys() if risk[station]=='low']
 
     print('Severe:', severe)
     print('High:', high)
