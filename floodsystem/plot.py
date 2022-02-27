@@ -9,9 +9,9 @@ def plot_water_levels(station, dates, levels):
 
 
     # Plot
-    plt.plot(dates, levels)
-    plt.axhline(y=station.typical_range[0], color='b', linestyle='-')
-    plt.axhline(y=station.typical_range[1], color='r', linestyle='-')
+    plt.plot(dates, levels, label="water level")
+    plt.axhline(y=station.typical_range[0], color='b', linestyle='-', label="typical low")
+    plt.axhline(y=station.typical_range[1], color='r', linestyle='-', label="typical high")
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('date')
@@ -21,7 +21,7 @@ def plot_water_levels(station, dates, levels):
 
     # Display plot
     plt.tight_layout()  # This makes sure plot does not cut off date labels
-
+    plt.legend()
     plt.show()
 
 def plot_water_level_with_fit(station, dates, levels, p):
@@ -36,10 +36,10 @@ def plot_water_level_with_fit(station, dates, levels, p):
     poly, d0 = polyfit(dates, levels, p)
 
     #plot the graphs
-    plt.plot(dates, levels)
-    plt.plot(dates, poly(dates_float - dates_float[0]))
-    plt.axhline(y=station.typical_range[0], color='b', linestyle='-')
-    plt.axhline(y=station.typical_range[1], color='r', linestyle='-')
+    plt.plot(dates, levels, label="water level")
+    plt.plot(dates, poly(dates_float - dates_float[0]), label="water level fit")
+    plt.axhline(y=station.typical_range[0], color='b', linestyle='-', label="typical low")
+    plt.axhline(y=station.typical_range[1], color='r', linestyle='-', label="typical high")
 
     # Add axis labels, rotate date labels and add plot title
     plt.xlabel('date')
@@ -49,4 +49,5 @@ def plot_water_level_with_fit(station, dates, levels, p):
 
     # Display plot
     plt.tight_layout()  # This makes sure plot does not cut off date labels
+    plt.legend()
     plt.show()
