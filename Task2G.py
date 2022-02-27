@@ -8,7 +8,7 @@ def run():
     update_water_levels(stations)
 
     #rate the risks of the stations
-    risk = rate(stations)
+    risk = rate(stations[0:300])
     #convert them to lists based on the level of risk and print those lists
     severe = [station.name for station in risk.keys() if risk[station]=='severe']
     high = [station.name for station in risk.keys() if risk[station]=='high']

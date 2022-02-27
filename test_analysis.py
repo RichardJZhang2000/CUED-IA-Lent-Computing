@@ -25,7 +25,7 @@ def test_rate():
     update_water_levels(stations)
 
     #get the ratings
-    risks = rate(stations)
+    risks = rate(stations[0:300])
 
     for station in risks.keys():
         assert station in stations
